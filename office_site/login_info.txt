@@ -1,0 +1,6 @@
+username - Johndepp
+password - john@1212
+
+Login Using this or Signup a new Account
+
+#runserver Command- pyhton manage.py runserver

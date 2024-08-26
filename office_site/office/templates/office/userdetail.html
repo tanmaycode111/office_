@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: beige;
+    }
+    /* For tablets and larger devices */
+@media (min-width: 768px) {
+    .column {
+        width: 50%;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .column {
+        width: 100%;
+    }
+}
+.btn-danger{
+    border: 2px solid balck;
+    border-radius: 15px;
+    background-color: red;
+  }
+  .btn-danger a{
+    text-decoration: none;
+    color: antiquewhite;
+  }
+
+</style>
+<body>
+    
+    <h1>Hey'    {{user}}</h1>
+    {% if user.id == user.id %}
+    <h2>
+        
+        {{user}}
+        Visit here and click your name to get your details
+    </h2>
+    <a href="/office/list_employee/">click here</a>
+    
+    {% else %}
+    <h2>you dont add your details yet.<a  class="nav-link" href="{% url "office:create_employee" %}?next={{request.path}}">ADD EMPLOYEE</a></h2>
+    {% endif %}
+    <button class="btn-danger"><a  href="{% url 'office:index_view'%}">HomePage</a></button>
+</body>
+</html>

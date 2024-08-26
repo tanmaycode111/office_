@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<style>
+    @media (min-width: 768px) {
+    .column {
+        width: 50%;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .column {
+        width: 100%;
+    }
+}
+body{
+    background-color: rgb(224, 207, 173);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+
+    }
+
+    form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #96a3c2;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+button a{
+    color: aliceblue;
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #435444;
+}
+
+</style>
+<body>
+    
+    {% if form.errors %}
+    <p>Your username or password was incorrect. Try again.</p>
+    {% endif %}
+    
+    {% if next %}
+    {% if user.is_authenticated %}
+    <p>You dont have permission for this page</p>
+    
+    {% else %}
+    <p>Please login to see this page</p>
+    {% endif %}
+    {% endif %}
+    
+<form class="form" method='post' action="{% url 'login' %}">
+    <h2> <u><b>Login Here</b></u></h2>
+{% csrf_token %}
+{{form}} <br> <br>
+<button type="submit">Login</button>&nbsp;
+<input type="hidden" name='next' value="{{next}}">
+&nbsp;
+<button><a href="{% url "office:signup" %}">signup</a></button>
+</body>
+</html>
+
+</form> 

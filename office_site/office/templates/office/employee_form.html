@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<style>
+   body{
+        background-color: beige;
+    }
+  /* Form styling */
+form {
+    margin-top: 20px;
+    background-color: cadetblue;
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 20px 20px;
+    height: auto;
+}
+/* For tablets and larger devices */
+@media (min-width: 768px) {
+    .column {
+        width: 50%;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .column {
+        width: 100%;
+    }
+}
+.navbar{
+  background: linear-gradient(90deg, #1e3c72, #ab85c7);
+}
+.navbar a{
+  color: azure;
+}
+
+
+form label {
+    display: flex;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"] {
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #3498db;
+}
+.submit-btn{
+  background-color: rgb(180, 41, 41); 
+  border-radius: 15px;
+}
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-success-subtle shadow-lg sticky-top ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'office:index_view'%}">PEOPLE.CO</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a  class="nav-link" href="{% url "office:create_employee" %}?next={{request.path}}">ADD EMPLOYEE</a>
+              </li>
+              <li class="nav-item">
+                <a  class="nav-link" href="{% url "office:list_employee" %}?next={{request.path}}">UPDATE EMPLOYEE</a>
+              </li>
+              <li class="nav-item">
+                <a  class="nav-link" href="{% url "office:list_employee" %}?next={{request.path}}">DELETE EMPLOYE</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page"href="{% url "office:list_employee" %}?next={{request.path}}"> LIST EMPLOYEE</a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </nav>
+    <h1>Employee Form</h1>
+    <form class="form" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="btn btn-primary" type="submit" value="submit">
+    </form>
+
+</body>
+</html>

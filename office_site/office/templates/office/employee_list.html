@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+		<script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer init></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+  body {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        background-color: beige;
+    }
+    /* For tablets and larger devices */
+@media (min-width: 768px) {
+    .column {
+        width: 50%;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .column {
+        width: 100%;
+    }
+}
+
+
+    .sidebar {
+        padding-top: 30px;
+        width: 250px;
+        background: linear-gradient(90deg, #2c2c2d, #314159);
+        color: white;
+        padding: 15px;
+        height: 100vh; /* Full height */
+        position: fixed;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+        transition: background-color 0.3s;
+    }
+
+    .sidebar a:hover {
+        background-color: #8d8a8a;
+    }
+    .sidebar a:active{
+        background-color: black;
+    }
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        flex-grow: 1;
+    }
+    td a{
+        text-align: center;
+        text-decoration: none;
+    }
+    td a:hover{
+        color: rgb(120, 26, 207);
+    }
+    .delete{
+        color: red;
+        
+    }
+    .update{
+        color: rgb(6, 202, 59);
+        
+    }
+
+    /* table  */
+    .table-container{
+        margin-left: 20%;
+    }
+    .table-container {
+    margin-top: 20px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.table-container th, .table-container td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.table-container th {
+    background-color: #2980b9;
+    color: white;
+    cursor: pointer;
+}
+
+.table-container th:hover {
+    background-color: #0c345b;
+}
+
+.table-container tbody tr:nth-of-type(even) {
+    background-color: #cde0d6;
+}
+
+.table-container tbody tr:hover {
+    background-color: #d0c9c9;
+}
+
+.table-container button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-container button:hover {
+    background-color: #414f5d;
+    
+}
+.add a{
+color: #f3f3f3;
+text-decoration: none;
+}
+.add{
+    background-color: #105edb;
+
+}
+
+
+
+</style>
+<body>
+  
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary bg-success-subtle shadow-lg sticky-top ">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'office:index_view'%}">PEOPLE.CO</a>
+  </div>
+</nav> -->
+<div class="sidebar">
+    <h2>Menu</h2>
+    <a class="home-slide" href="{% url 'office:index_view'%}"><i class="fa fa-fw fa-home"></i>Home page</a>
+    <a class="home-slide active" aria-current="page"href="{% url "office:list_employee" %}?next={{request.path}}"><i class="fa fa-fw fa-user"></i>Employees</a>
+</div>
+<div class="table-container">
+    <div class="controls">
+        <form class="d-flex" role="search">
+              <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success add" type="submit">Search</button>
+            </form>
+        <select id="role-filter">
+            <option value="">Filter by Role</option>
+            <option value="Manager">Manager</option>
+            <option value="Developer">Developer</option>
+        </select>
+        <select id="team-filter">
+            <option value="">Filter by Team</option>
+            <option value="design">Design</option>
+            <option value="marketing">Marketing</option>
+        </select> <span></span>
+        <button class="add"><a href="{% url "office:create_employee" %}?next={{request.path}}">ADD EMPLOYEE</a></button>
+    </div>
+    <table class="min-w-full bg-card border border-border">
+        <thead>
+            <tr class="bg-muted text-muted-foreground">
+                <th class="py-2 px-4">Name</th>
+                <th class="py-2 px-4">Status</th>
+                <th class="py-2 px-4">Role</th>
+                <th class="py-2 px-4">Email address</th>
+                <th class="py-2 px-4">Teams</th>
+                <th class="py-2 px-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employee_list %}
+            <tr class="border-b border-border">
+                <td class="py-2 px-4 flex items-center">
+                    <img src="{{employee.image.url}}" alt="photo" class="rounded-full mr-2" />
+                    <a href="/office/detail_employee/{{employee.id}}">{{employee.first_name}} {{employee.last_name}}</a>
+                </td>
+                <td class="py-2 px-4 text-green-500"><a href="/office/detail_employee/{{employee.id}}">{{employee.status}}</a></td>
+                <td class="py-2 px-4"><a href="/office/detail_employee/{{employee.id}}">{{employee.job_role}}</a></td>
+                <td class="py-2 px-4"><a href="/office/detail_employee/{{employee.id}}">{{employee.email}}</a></td>
+                <td class="py-2 px-4"><a href="/office/detail_employee/{{employee.id}}">{{employee.team}}</a></td>
+                <td class="py-2 px-4">
+                    <button class="text-blue-500 hover:text-blue-700"><a  class="update" href="/office/update_employee/{{employee.id}}"><i class="bi bi-pencil"></i></a></button>
+                    <button class="text-red-500 hover:text-red-700 ml-2"><a  class="delete" href="/office/delete_employee/{{employee.id}}"><i class="bi bi-trash"></i></a></button>
+                </td>
+            </tr>
+            {% endfor%}
+            
+        </tbody>
+    </table>
+
+    <!-- <table id="people-table">
+        <thead>
+            <tr>
+                <th data-sort="name">Name</th>
+                <th data-sort="role">Role</th>
+                <th data-sort="team">Team</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employee_list %}
+    <tr>
+        <td>
+        </td>
+        <td>
+
+            <a href="/office/detail_employee/{{employee.id}}">{{employee.job_role}}</a>
+        </td>
+        <td>
+            <a href="/office/detail_employee/{{employee.id}}">{{employee.team}}</a>
+
+        </td>
+        <td>
+            <a  class="update" href="/office/update_employee/{{employee.id}}"><i class="bi bi-pencil"></i></a>
+              <span>&nbsp;</span>
+
+            <a  class="delete" href="/office/delete_employee/{{employee.id}}"><i class="bi bi-trash"></i></a>
+        </td>
+    </tr>
+    {% endfor%}`
+        </tbody>
+    </table> -->
+</div>
+</div>
+
+<script>
+      // Sortable columns
+      $(document).ready(function() {
+            $('th[data-sort]').on('click', function() {
+                let sortField = $(this).data('sort');
+                sortTable(sortField);
+            });
+
+            $('#search').on('input', function() {
+                let searchTerm = $(this).val().toLowerCase();
+                filterTable(searchTerm);
+            });
+
+            $('#role-filter, #team-filter').on('change', function() {
+                filterTable();
+            });
+        });
+
+        function sortTable(field) {
+            let rows = $('#people-table tbody tr').get();
+            rows.sort(function(a, b) {
+                let A = $(a).children('td').eq(field === 'name' ? 0 : (field === 'role' ? 1 : 2)).text().toUpperCase();
+                let B = $(b).children('td').eq(field === 'name' ? 0 : (field === 'role' ? 1 : 2)).text().toUpperCase();
+                return (A < B) ? -1 : (A > B) ? 1 : 0;
+            });
+            $.each(rows, function(index, row) {
+                $('#people-table').children('tbody').append(row);
+            });
+        }
+
+        function filterTable(searchTerm) {
+            let roleFilter = $('#role-filter').val().toLowerCase();
+            let teamFilter = $('#team-filter').val().toLowerCase();
+            $('#people-table tbody tr').each(function() {
+                let name = $(this).children('td').eq(0).text().toLowerCase();
+                let role = $(this).children('td').eq(1).text().toLowerCase();
+                let team = $(this).children('td').eq(2).text().toLowerCase();
+                if (name.includes(searchTerm) && (role.includes(roleFilter) || roleFilter === 'design') && (team.includes(teamFilter) || teamFilter === 'marketing')) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+</script>
+</body>
+</html>
